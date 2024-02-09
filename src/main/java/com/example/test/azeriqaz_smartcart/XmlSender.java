@@ -22,6 +22,15 @@ public class XmlSender {
                 "  </gen2wayMsg>\n" +
                 "</ipayMsg>";
 
+        String soapRequest = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<response>\n" +
+                "  <version>1.0</version>\n" +
+                "  <operation_envelope>\n" +
+                "    <operation_xml>awerawerlkhWFEfdasfEWAFfdsafFEDFLksdj==</operation_xml>\n" +
+                "    <signature>" + "sdfEFDfdsfd=" + "</signature>\n" +
+                "  </operation_envelope>\n" +
+                "</response>";
+
         try {
             // Create a DocumentBuilderFactory
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -30,18 +39,18 @@ public class XmlSender {
             DocumentBuilder builder = factory.newDocumentBuilder();
 
             // Parse the XML string into a Document
-            Document document = builder.parse(new InputSource(new StringReader(postData1)));
+            Document document = builder.parse(new InputSource(new StringReader(soapRequest)));
 
             // Now, you can work with the parsed XML document
             // For example, you can access elements and attributes like this:
-            String refValue = document.getElementsByTagName("ipayMsg").item(0).getTextContent();
-            String resCode = document.getElementsByTagName("gen2wayMsg").item(0).getTextContent();
-            String customerValue = document.getElementsByTagName("custInfoRes").item(0).getTextContent();
+            String refValue = document.getElementsByTagName("response").item(0).getTextContent();
+            String resCode = document.getElementsByTagName("version").item(0).getTextContent();
+            String customerValue = document.getElementsByTagName("operation_envelope").item(0).getTextContent();
 
             // Print the parsed values
-            System.out.println("ipayMsg: " + refValue);
-            System.out.println("gen2wayMsg: " + resCode);
-            System.out.println("custInfoRes: " + customerValue);
+            System.out.println("response: " + refValue);
+            System.out.println("version: " + resCode);
+            System.out.println("operation_envelope: " + customerValue);
         } catch (Exception e) {
             e.printStackTrace();
         }
